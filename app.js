@@ -1,3 +1,38 @@
+// 1. Initialize Supabase Client
+const SUPABASE_URL = 'PASTE_YOUR_PROJECT_URL_HERE';
+const SUPABASE_PUBLISHABLE_KEY = 'PASTE_YOUR_PUBLISHABLE_KEY_HERE';
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+// 2. Fetch products live from your database
+async function fetchProducts() {
+    try {
+        const { data: products, error } = await supabase
+            .from('products')
+            .select('*');
+
+        if (error) {
+            console.error('Error fetching products:', error.message);
+            return;
+        }
+
+        // 3. Render the products on your website
+        // (Make sure 'renderProductCatalog' matches your existing display function name, 
+        // or let me know what function you use to show your products!)
+        if (typeof renderProductCatalog === 'function') {
+            renderProductCatalog(products);
+        }
+
+    } catch (err) {
+        console.error('Unexpected error:', err);
+    }
+}
+
+// Run the fetch when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    fetchProducts();
+});
+
 (() => {
   "use strict";
   const $ = (s) => document.querySelector(s);
